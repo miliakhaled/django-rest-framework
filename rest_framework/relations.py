@@ -2,7 +2,7 @@ import contextlib
 import sys
 from operator import attrgetter
 from urllib import parse
-
+from graphql_relay import from_global_id
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 from django.db.models import Manager
 from django.db.models.query import QuerySet
@@ -250,6 +250,9 @@ class PrimaryKeyRelatedField(RelatedField):
         return True
 
     def to_internal_value(self, data):
+        _type,pk = from_global_id(data)
+        data = pk
+
         if self.pk_field is not None:
             data = self.pk_field.to_internal_value(data)
         queryset = self.get_queryset()
