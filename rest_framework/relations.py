@@ -250,9 +250,11 @@ class PrimaryKeyRelatedField(RelatedField):
         return True
 
     def to_internal_value(self, data):
-        _type,pk = from_global_id(data)
-        data = pk
-
+        try:
+            _type,pk = from_global_id(data)
+            data = pk
+        except:
+            pass
         if self.pk_field is not None:
             data = self.pk_field.to_internal_value(data)
         queryset = self.get_queryset()
