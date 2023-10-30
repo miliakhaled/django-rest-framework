@@ -250,11 +250,12 @@ class PrimaryKeyRelatedField(RelatedField):
         return True
 
     def to_internal_value(self, data):
-        try:
+         try:
+            # in case of a django id, continue, else throw exception and parse global id
+            int(data)
+        except Exception as E:
             _type,pk = from_global_id(data)
             data = pk
-        except:
-            pass
         if self.pk_field is not None:
             data = self.pk_field.to_internal_value(data)
         queryset = self.get_queryset()
