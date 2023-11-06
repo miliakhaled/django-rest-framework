@@ -250,7 +250,7 @@ class PrimaryKeyRelatedField(RelatedField):
         return True
 
     def to_internal_value(self, data):
-         try:
+        try:
             # in case of a django id, continue, else throw exception and parse global id
             int(data)
         except Exception as E:
